@@ -1,0 +1,29 @@
+const BUSINESS_DATA = {
+    //业务分类
+    ACCOUNT_MANAGEMENT: 0, //账户管理
+    TRANSFER_REMITTANCE: 1, //转装汇款
+    CONSTANT_ROTATION: 2, //定活互转
+    AGENCY_PAYMENT: 3, //代理缴费
+    CHARACTERISTIC_BUSINESS: 4, //特色业务
+    CREDIT_CARD: 5 //信用卡
+};
+const PURCHASE_DATA = {
+    //产品采购
+    GROUP_PURCHASING: 0, //集团采购
+};
+const REGULATIONS_DATA = {
+    //政策法规
+    INDUSTY_REGULATIONS: 0, //行业法规
+    POLICY_INTERPRETATION: 1, //政策解读
+};
+const NOTICE_DATA = {
+    //通知公告
+    DOMESTIC_CONSULATION: 0, //国内咨询
+    OVERSEAS_CONSULATION: 1, //国外咨询
+};
+module.exports = {
+    BUSINESS_DATA: BUSINESS_DATA,
+    PURCHASE_DATA: PURCHASE_DATA,
+    REGULATIONS_DATA: REGULATIONS_DATA,
+    NOTICE_DATA: NOTICE_DATA
+};
