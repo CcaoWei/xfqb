@@ -57,7 +57,6 @@ export default {
       let name = "";
       if (this.$route != "detail" && this.$route != "apply") {
         const num = this.$route.name.substr(this.$route.name.length - 1, 1) - 1;
-        console.log(num)
         if (this.data && this.data.tabs[num]) {
           name = this.data.tabs[num].name;
         } else {
@@ -74,7 +73,7 @@ export default {
   },
   methods: {
     handleLink(link, index) {
-      // this.active = index;
+      this.$emit("getTabIndex", index);
       if (
         this.$route.name &&
         this.$route.name != this.data.name + (index + 1)

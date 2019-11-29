@@ -1,6 +1,6 @@
 <template>
   <div class="section-4 s-bg-color page">
-    <Tabs :data="nav"></Tabs>
+    <Tabs :data="$t('message.statuteNav')" @getTabIndex="getTabIndex"></Tabs>
     <div class="container w-container">
       <div class="page-main">
         <div class="two-list w-clearfix">
@@ -18,184 +18,39 @@
                 />
               </div>
               <ul class="new-list w-list-unstyled">
-                <li class="new-list-item w-clearfix">
+                <li
+                  class="new-list-item w-clearfix"
+                  v-for="item in statuteInfo"
+                  :key="item.id"
+                >
                   <div class="new-list-img">
-                    <div class="text-block-22">10</div>
-                    <div class="text-block-23">Oct</div>
-                    <div class="text-block-24">2019</div>
+                    <div class="text-block-22">{{ item.day }}</div>
+                    <div class="text-block-23">{{ item.month }}</div>
+                    <div class="text-block-24">{{ item.year }}</div>
                   </div>
                   <div class="new-list-right">
                     <h3
                       class="new-list-title ellipsis-1 pointer"
                       @click="handleDetail"
                     >
-                      叙政府军已进入叙北库尔德武装控制区
+                      {{ item.title }}
                     </h3>
                     <div class="text-block-18">
-                      发布者：中国新闻网 | 浏览次数：1274
+                      发布者：{{ item.createName }} | 浏览次数：{{
+                        item.clickNum
+                      }}
                     </div>
                     <p class="paragraph-4 ellipsis-2">
-                      【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。
-                    </p>
-                  </div>
-                </li>
-                <li class="new-list-item w-clearfix">
-                  <div class="new-list-img">
-                    <div class="text-block-22">8</div>
-                    <div class="text-block-23">Oct</div>
-                    <div class="text-block-24">2019</div>
-                  </div>
-                  <div class="new-list-right">
-                    <h3
-                      class="new-list-title ellipsis-1 pointer"
-                      @click="handleDetail"
-                    >
-                      油轮被炸后，伊朗称发现可创收400亿美元新气田
-                    </h3>
-                    <div class="text-block-18">
-                      发布者：中国新闻网 | 浏览次数：1274
-                    </div>
-                    <p class="paragraph-4 ellipsis-2">
-                      伊朗方面于10月13日宣布发现新天然气储备，称将给该国创收400亿美元。伊朗还表示，有能力在未来勘探出新的天然气和石油储备。
-                    </p>
-                  </div>
-                </li>
-                <li class="new-list-item w-clearfix">
-                  <div class="new-list-img">
-                    <div class="text-block-22">7</div>
-                    <div class="text-block-23">Oct</div>
-                    <div class="text-block-24">2019</div>
-                  </div>
-                  <div class="new-list-right">
-                    <h3
-                      class="new-list-title ellipsis-1 pointer"
-                      @click="handleDetail"
-                    >
-                      西班牙严惩加泰罗尼亚分裂分子，9名领导人入狱
-                    </h3>
-                    <div class="text-block-18">
-                      发布者：中国新闻网 | 浏览次数：1274
-                    </div>
-                    <p class="paragraph-4 ellipsis-2">
-                      当地时间10月14日，西班牙最高法院宣布，9名分裂分子煽动叛乱罪成立，对他们判处9到13年有期徒刑。
-                      中国日报网10月14日电（严玉洁）
-                      2017年10月，西班牙加泰罗尼亚自治区（加区）举行“独立公投”，随后单方面宣布“独立”。对于分裂势力领导人，西班牙政府进行了严惩。
-                      据路透社报道，当地时间10月14日，西班牙最高法院宣布，9名分裂分子煽动叛乱罪成立，对他们判处9到13年有期徒刑。
-                      另有3名被告只犯下违抗罪，没有被判处入狱。
-                    </p>
-                  </div>
-                </li>
-                <li class="new-list-item w-clearfix">
-                  <div class="new-list-img">
-                    <div class="text-block-22">5</div>
-                    <div class="text-block-23">Oct</div>
-                    <div class="text-block-24">2019</div>
-                  </div>
-                  <div class="new-list-right">
-                    <h3
-                      class="new-list-title ellipsis-1 pointer"
-                      @click="handleDetail"
-                    >
-                      英国女王：10月31日前脱欧是政府首要任务
-                    </h3>
-                    <div class="text-block-18">
-                      发布者：中国新闻网 | 浏览次数：1274
-                    </div>
-                    <p class="paragraph-4 ellipsis-2">
-                      【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。
-                    </p>
-                  </div>
-                </li>
-                <li class="new-list-item w-clearfix">
-                  <div class="new-list-img">
-                    <div class="text-block-22">3</div>
-                    <div class="text-block-23">Oct</div>
-                    <div class="text-block-24">2019</div>
-                  </div>
-                  <div class="new-list-right">
-                    <h3
-                      class="new-list-title ellipsis-1 pointer"
-                      @click="handleDetail"
-                    >
-                      台风登陆日本近4万人无法回家，5名中国籍船员遇难
-                    </h3>
-                    <div class="text-block-18">
-                      发布者：中国新闻网 | 浏览次数：1274
-                    </div>
-                    <p class="paragraph-4 ellipsis-2">
-                      台风“海贝思”12日登陆日本，随之而来的狂风暴雨天气导致日本大范围地区发生洪水灾害和沙土灾害，近日来死亡人数不断上升。
-                    </p>
-                  </div>
-                </li>
-                <li class="new-list-item w-clearfix">
-                  <div class="new-list-img">
-                    <div class="text-block-22">3</div>
-                    <div class="text-block-23">Oct</div>
-                    <div class="text-block-24">2019</div>
-                  </div>
-                  <div class="new-list-right">
-                    <h3
-                      class="new-list-title ellipsis-1 pointer"
-                      @click="handleDetail"
-                    >
-                      拜登暗讽特朗普：如果我当选总统，不会有家人在白宫上班
-                    </h3>
-                    <div class="text-block-18">
-                      发布者：中国新闻网 | 浏览次数：1274
-                    </div>
-                    <p class="paragraph-4 ellipsis-2">
-                      当地时间13日，美国前副总统拜登在爱荷华州的一次劳工会议上发表讲话时说，如果他当选总统，他的家人将不会在白宫上班，也不会与外国公司或外国政府有业务关系。
-                    </p>
-                  </div>
-                </li>
-                <li class="new-list-item w-clearfix">
-                  <div class="new-list-img">
-                    <div class="text-block-22">3</div>
-                    <div class="text-block-23">Oct</div>
-                    <div class="text-block-24">2019</div>
-                  </div>
-                  <div class="new-list-right">
-                    <h3
-                      class="new-list-title ellipsis-1 pointer"
-                      @click="handleDetail"
-                    >
-                      英国女王：10月31日前脱欧是政府首要任务
-                    </h3>
-                    <div class="text-block-18">
-                      发布者：中国新闻网 | 浏览次数：1274
-                    </div>
-                    <p class="paragraph-4 ellipsis-2">
-                      【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。
-                    </p>
-                  </div>
-                </li>
-                <li class="new-list-item w-clearfix">
-                  <div class="new-list-img">
-                    <div class="text-block-22">3</div>
-                    <div class="text-block-23">Oct</div>
-                    <div class="text-block-24">2019</div>
-                  </div>
-                  <div class="new-list-right">
-                    <h3
-                      class="new-list-title ellipsis-1 pointer"
-                      @click="handleDetail"
-                    >
-                      油轮被炸后，伊朗称发现可创收400亿美元新气田
-                    </h3>
-                    <div class="text-block-18">
-                      发布者：中国新闻网 | 浏览次数：1274
-                    </div>
-                    <p class="paragraph-4 ellipsis-2">
-                      当地时间10月14日，西班牙最高法院宣布，9名分裂分子煽动叛乱罪成立，对他们判处9到13年有期徒刑。
-                      中国日报网10月14日电（严玉洁）
-                      2017年10月，西班牙加泰罗尼亚自治区（加区）举行“独立公投”，随后单方面宣布“独立”。对于分裂势力领导人，西班牙政府进行了严惩。
-                      据路透社报道，当地时间10月14日，西班牙最高法院宣布，9名分裂分子煽动叛乱罪成立，对他们判处9到13年有期徒刑。
-                      另有3名被告只犯下违抗罪，没有被判处入狱。
+                      {{ item.subject }}
                     </p>
                   </div>
                 </li>
               </ul>
-              <div class="div-block-50 pointer">
+              <div
+                class="div-block-50 pointer"
+                @click="moreData"
+                v-if="hasMore"
+              >
                 <img
                   :src="`${$publicPath}images/more_1more.png`"
                   alt=""
@@ -227,6 +82,8 @@
 <script>
 import Tabs from "@/components/Tabs.vue";
 import RightList from "@/components/RightList.vue";
+import axios from "axios";
+
 export default {
   name: "Statute",
   components: {
@@ -235,20 +92,15 @@ export default {
   },
   data() {
     return {
-      nav: {
-        title: "政策法规",
-        name: "statute",
-        tabs: [
-          {
-            name: "行业法规",
-            link: "1"
-          },
-          {
-            name: "政策解读",
-            link: "2"
-          }
-        ]
+      loadMore: false,
+      hasMore: true,
+
+      paging: {
+        current: 1,
+        size: 8
       },
+      tabNum: 1,
+      statuteInfo: [],
       list1: [
         {
           title: "广泰支行七一扶贫帮困活动",
@@ -303,7 +155,99 @@ export default {
       ]
     };
   },
+  created() {
+    this.getStatuteInfo(this.paging, 1);
+  },
+
   methods: {
+    moreData() {
+      if (!this.loadMore) {
+        const paging = this.paging;
+        const nextPaging = {
+          current: paging.current + 1,
+          size: 8
+        };
+        this.getStatuteInfo(nextPaging, this.tabNum);
+      }
+    },
+    matchingMonth(key) {
+      switch (key) {
+        case "01":
+          return "Jan";
+        case "02":
+          return "Feb";
+        case "03":
+          return "Mar";
+        case "04":
+          return "Apr";
+        case "05":
+          return "May";
+        case "06":
+          return "Jun";
+        case "07":
+          return "Jul";
+        case "08":
+          return "Aug";
+        case "09":
+          return "Sep";
+        case "10":
+          return "Oct";
+        case "11":
+          return "Nov";
+        case "12":
+          return "Dec";
+        default:
+          return "";
+      }
+    },
+    getTabIndex(idx) {
+      let category = idx + 1;
+      this.paging = {
+        current: 1,
+        size: 8
+      };
+      this.tabNum = category;
+      this.statuteInfo = [];
+      this.hasMore = true;
+      this.loadMore = false;
+      this.getStatuteInfo(this.paging, category);
+    },
+    getStatuteInfo(argPaging, category) {
+      const url = this.$store.state.url;
+      const paging = argPaging ? argPaging : this.paging;
+      axios
+        .get(`${url}/statute/list`, {
+          params: {
+            category: category,
+            current: paging.current,
+            size: paging.size
+          }
+        })
+        .then(response => {
+          console.log(response);
+          if (response.status == 200) {
+            let records = JSON.parse(
+              JSON.stringify(response.data.data.records)
+            );
+            for (let iterator of records) {
+              iterator.day = iterator.createTime.substr(8, 2);
+              iterator.month = this.matchingMonth(
+                iterator.createTime.substr(5, 2)
+              );
+              iterator.year = iterator.createTime.substr(0, 4);
+            }
+            this.statuteInfo = [...this.statuteInfo, ...records];
+            if (response.data.data.total === this.statuteInfo.length) {
+              this.hasMore = false;
+              this.loadMore = true;
+            }
+          }
+        })
+        .catch(error => {
+          // handle error
+          console.log(error);
+        });
+    },
     handleDetail: function() {
       this.$router.push({
         name: "detail",

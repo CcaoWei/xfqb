@@ -13,36 +13,36 @@ import LangKo from "./assets/ko";
 Vue.use(VueI18n);
 Vue.use(VueAMap);
 const i18n = new VueI18n({
-    locale: "zh",
-    messages: {
-        en: LangEn,
-        zh: LangZh,
-        ko: LangKo
-    }
+  locale: "zh",
+  messages: {
+    en: LangEn,
+    zh: LangZh,
+    ko: LangKo
+  }
 });
 
 VueAMap.initAMapApiLoader({
-    key: "df42d34f6acaa293889f667a3e61005a",
-    plugin: [
-        "AMap.Autocomplete",
+  key: "df42d34f6acaa293889f667a3e61005a",
+  plugin: [
+    "AMap.Autocomplete",
 
-        "AMap.PlaceSearch",
+    "AMap.PlaceSearch",
 
-        "AMap.Scale",
+    "AMap.Scale",
 
-        "AMap.OverView",
+    "AMap.OverView",
 
-        "AMap.ToolBar",
+    "AMap.ToolBar",
 
-        "AMap.MapType",
+    "AMap.MapType",
 
-        "AMap.PolyEditor",
+    "AMap.PolyEditor",
 
-        "AMap.CircleEditor",
+    "AMap.CircleEditor",
 
-        "AMap.Geolocation"
-    ],
-    v: "1.4.4"
+    "AMap.Geolocation"
+  ],
+  v: "1.4.4"
 });
 
 Vue.config.productionTip = false;
@@ -55,8 +55,8 @@ Vue.prototype.$publicPath = process.env.BASE_URL;
 // Webflow.redraw.on()
 // console.log(Webflow.redraw)
 new Vue({
-    router,
-    store,
-    i18n,
-    render: h => h(App)
+  router,
+  store,
+  i18n,
+  render: h => h(App)
 }).$mount("#app");

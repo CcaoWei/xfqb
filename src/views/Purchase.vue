@@ -1,43 +1,58 @@
 <template>
   <div class="section-4 s-bg-color page">
-    <Tabs :data="nav"></Tabs>
+    <Tabs :data="$t('message.PurchaseNav')"></Tabs>
     <div class="container w-container">
       <div class="page-main">
         <div class="pur-top">
           <div data-delay="0" class="dropdown down1 w-dropdown">
-            <div class="down w-dropdown-toggle">
-              <div class="w-icon-dropdown-toggle"></div>
-              <div class="text-block-31">选择地区</div>
-            </div>
-            <nav class="dropdown-list w-dropdown-list">
+            <el-select v-model="cityValue" placeholder="选择地区">
+              <el-option
+                v-for="item in cityData"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+            <!-- <nav class="dropdown-list w-dropdown-list">
               <a href="#" class="dropdown-link w-dropdown-link">Link 1</a
               ><a href="#" class="dropdown-link w-dropdown-link">Link 2</a
               ><a href="#" class="dropdown-link w-dropdown-link">Link 3</a>
-            </nav>
+            </nav> -->
           </div>
           <div data-delay="0" class="dropdown down2 w-dropdown">
-            <div class="down w-dropdown-toggle">
-              <div class="w-icon-dropdown-toggle"></div>
-              <div class="text-block-31">信息类型</div>
-            </div>
-            <nav class="dropdown-list w-dropdown-list">
+            <el-select v-model="infoTypeValue" placeholder="信息类型">
+              <el-option
+                v-for="item in infoType"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+            <!-- <nav class="dropdown-list w-dropdown-list">
               <a href="#" class="dropdown-link w-dropdown-link">Link 1</a
               ><a href="#" class="dropdown-link w-dropdown-link">Link 2</a
               ><a href="#" class="dropdown-link w-dropdown-link">Link 3</a>
-            </nav>
+            </nav> -->
           </div>
           <div data-delay="0" class="dropdown down3 w-dropdown">
-            <div class="down w-dropdown-toggle">
-              <div class="w-icon-dropdown-toggle"></div>
-              <div class="text-block-31">选择时间</div>
+            <div class="block">
+              <el-date-picker
+                v-model="dataValue"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="选择时间"
+              >
+              </el-date-picker>
             </div>
-            <nav class="dropdown-list w-dropdown-list">
+            <!-- <nav class="dropdown-list w-dropdown-list">
               <a href="#" class="dropdown-link w-dropdown-link">Link 1</a
               ><a href="#" class="dropdown-link w-dropdown-link">Link 2</a
               ><a href="#" class="dropdown-link w-dropdown-link">Link 3</a>
-            </nav>
+            </nav> -->
           </div>
-          <a href="#" class="button-2 w-button">搜索</a>
+          <div @click="searchPurchase" class="button-2 w-button">搜索</div>
         </div>
         <div class="two-list w-clearfix">
           <div class="two-left">
@@ -48,84 +63,19 @@
                 <div class="pur-item3 pur-title">项目类型</div>
                 <div class="pur-item4 pur-title">招标采购标题</div>
               </div>
-              <div class="pur-table pur-con pointer" @click="handleDetail">
-                <div class="pur-item1 pur-text">2019-10-15</div>
-                <div class="pur-item2 pur-text">广东</div>
-                <div class="pur-item3 pur-text">招标</div>
-                <div class="pur-item4 pur-text">
-                  需求公示[2019]黑龙江建筑职业技术学院_信息系微课录制
+              <div
+                class="pur-table pur-con pointer"
+                @click="handleDetail"
+                v-for="item in purchaseInfo.records"
+                :key="item.id"
+              >
+                <div class="pur-item1 pur-text">
+                  {{ item.time.substr(0, 10) }}
                 </div>
-              </div>
-              <div class="pur-table pur-con pointer" @click="handleDetail">
-                <div class="pur-item1 pur-text">2019-10-15</div>
-                <div class="pur-item2 pur-text">云南</div>
-                <div class="pur-item3 pur-text">预告</div>
+                <div class="pur-item2 pur-text">{{ item.regionName }}</div>
+                <div class="pur-item3 pur-text">{{ item.typeName }}</div>
                 <div class="pur-item4 pur-text">
-                  中国烟草总公司深圳市公司税务审计服务项目
-                </div>
-              </div>
-              <div class="pur-table pur-con pointer" @click="handleDetail">
-                <div class="pur-item1 pur-text">2019-10-15</div>
-                <div class="pur-item2 pur-text">广东</div>
-                <div class="pur-item3 pur-text">预告</div>
-                <div class="pur-item4 pur-text">
-                  [采购公告]安宁公司线材厂用电动蝶阀（10190925计划）
-                </div>
-              </div>
-              <div class="pur-table pur-con pointer" @click="handleDetail">
-                <div class="pur-item1 pur-text">2019-10-15</div>
-                <div class="pur-item2 pur-text">北京</div>
-                <div class="pur-item3 pur-text">招标</div>
-                <div class="pur-item4 pur-text">
-                  [采购公告]玉钢公司炼钢厂用气动O型球阀等（10190423计划）
-                </div>
-              </div>
-              <div class="pur-table pur-con pointer" @click="handleDetail">
-                <div class="pur-item1 pur-text">2019-10-15</div>
-                <div class="pur-item2 pur-text">广东</div>
-                <div class="pur-item3 pur-text">招标</div>
-                <div class="pur-item4 pur-text">
-                  需求公示[2019]黑龙江建筑职业技术学院_信息系微课录制
-                </div>
-              </div>
-              <div class="pur-table pur-con pointer" @click="handleDetail">
-                <div class="pur-item1 pur-text">2019-10-15</div>
-                <div class="pur-item2 pur-text">云南</div>
-                <div class="pur-item3 pur-text">预告</div>
-                <div class="pur-item4 pur-text">
-                  中国烟草总公司深圳市公司税务审计服务项目
-                </div>
-              </div>
-              <div class="pur-table pur-con pointer" @click="handleDetail">
-                <div class="pur-item1 pur-text">2019-10-15</div>
-                <div class="pur-item2 pur-text">广东</div>
-                <div class="pur-item3 pur-text">预告</div>
-                <div class="pur-item4 pur-text">
-                  [采购公告]安宁公司线材厂用电动蝶阀（10190925计划）
-                </div>
-              </div>
-              <div class="pur-table pur-con pointer" @click="handleDetail">
-                <div class="pur-item1 pur-text">2019-10-15</div>
-                <div class="pur-item2 pur-text">北京</div>
-                <div class="pur-item3 pur-text">招标</div>
-                <div class="pur-item4 pur-text">
-                  [采购公告]玉钢公司炼钢厂用气动O型球阀等（10190423计划）
-                </div>
-              </div>
-              <div class="pur-table pur-con pointer" @click="handleDetail">
-                <div class="pur-item1 pur-text">2019-10-15</div>
-                <div class="pur-item2 pur-text">广东</div>
-                <div class="pur-item3 pur-text">招标</div>
-                <div class="pur-item4 pur-text">
-                  需求公示[2019]黑龙江建筑职业技术学院_信息系微课录制
-                </div>
-              </div>
-              <div class="pur-table pur-con pointer" @click="handleDetail">
-                <div class="pur-item1 pur-text">2019-10-15</div>
-                <div class="pur-item2 pur-text">云南</div>
-                <div class="pur-item3 pur-text">预告</div>
-                <div class="pur-item4 pur-text">
-                  中国烟草总公司深圳市公司税务审计服务项目
+                  {{ item.subject }}
                 </div>
               </div>
               <div class="div-block-32">
@@ -133,10 +83,10 @@
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
                   :current-page.sync="currentPage"
-                  :page-size="10"
+                  :page-size="purchaseInfo.size"
                   layout="prev, pager, next, jumper"
                   background
-                  :total="30"
+                  :total="purchaseInfo.total"
                 >
                 </el-pagination>
               </div>
@@ -154,10 +104,38 @@
     </div>
   </div>
 </template>
-
+<style>
+.el-date-editor .el-input__inner {
+  width: 100%;
+  background: #fff;
+  color: #8b8b8b;
+}
+.pur-top .el-input__inner {
+  width: 100%;
+  background: #fff;
+  color: #8b8b8b;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.dropdown .el-select {
+  width: 95%;
+}
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 95%;
+}
+.pur-top .down1 .el-input__inner,
+.pur-top .down2 .el-input__inner {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+</style>
 <script>
 import Tabs from "@/components/Tabs.vue";
 import RightList from "@/components/RightList.vue";
+import axios from "axios";
+
 export default {
   name: "Purchase",
   components: {
@@ -166,16 +144,17 @@ export default {
   },
   data() {
     return {
+      infoTypeValue: "",
+      cityValue: "",
+      infoType: [],
+      cityData: [],
+      purchaseInfo: [],
+      dataValue: "",
       currentPage: 1,
-      nav: {
-        title: "产品采购",
-        name: "purchase",
-        tabs: [
-          {
-            name: "集团采购",
-            link: "1"
-          }
-        ]
+
+      paging: {
+        current: 1,
+        size: 10
       },
       list: [
         {
@@ -229,7 +208,79 @@ export default {
       ]
     };
   },
+  created() {
+    this.getCityData();
+    this.getInfoType();
+    this.getPurchaseInfo(this.paging);
+  },
   methods: {
+    //搜索
+    searchPurchase: function() {
+      this.paging = {
+        current: 1,
+        size: 10
+      };
+      let argPaging = this.paging;
+      let region = this.cityValue;
+      let time = this.dataValue;
+      let typeId = this.infoTypeValue;
+      this.getPurchaseInfo(argPaging, region, time, typeId);
+    },
+    getPurchaseInfo(argPaging, region, time, type) {
+      const url = this.$store.state.url;
+      const paging = argPaging ? argPaging : this.paging;
+      axios
+        .get(`${url}/purchase/list`, {
+          params: {
+            region: region,
+            time: time,
+            type: type,
+            current: paging.current,
+            size: paging.size
+          }
+        })
+        .then(response => {
+          console.log(response);
+          if (response.status == 200) {
+            this.purchaseInfo = response.data.data;
+          }
+          console.log(this);
+        })
+        .catch(error => {
+          // handle error
+          console.log(error);
+        });
+    },
+    getCityData: function() {
+      const url = this.$store.state.url;
+      axios
+        .get(`${url}/region/all`)
+        .then(response => {
+          console.log(response);
+          if (response.status == 200) {
+            this.cityData = response.data.data;
+          }
+        })
+        .catch(error => {
+          // handle error
+          console.log(error);
+        });
+    },
+    getInfoType: function() {
+      const url = this.$store.state.url;
+      axios
+        .get(`${url}/puType/all`)
+        .then(response => {
+          console.log(response);
+          if (response.status == 200) {
+            this.infoType = response.data.data;
+          }
+        })
+        .catch(error => {
+          // handle error
+          console.log(error);
+        });
+    },
     handleDetail: function() {
       this.$router.push({
         name: "detail",
@@ -240,7 +291,14 @@ export default {
       // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
+      const nextPaging = {
+        current: val,
+        size: 10
+      };
+      let region = this.cityValue;
+      let time = this.dataValue;
+      let typeId = this.infoTypeValue;
+      this.getPurchaseInfo(nextPaging, region, time, typeId);
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="section-4 s-bg-color page">
-    <Tabs :data="nav"></Tabs>
+    <Tabs :data="$t('message.noticeNav')" @getTabIndex="getTabIndex"></Tabs>
     <div class="container w-container">
       <div class="page-main">
         <div class="two-list w-clearfix">
@@ -16,7 +16,7 @@
                   <div class="slide-5 w-slide pointer" @click="handleDetail">
                     <div class="page-slide-title">
                       <div class="text-block-46">
-                        英国女王：10月31日前脱欧是政府首要任务
+                        英国女王：10月wss31日前脱欧是政府首要任务
                       </div>
                     </div>
                   </div>
@@ -37,27 +37,27 @@
                 <div class="w-slider-nav w-round"></div>
               </div>
               <ul class="notice-list w-list-unstyled">
-                <li class="notice-item w-clearfix">
+                <li
+                  class="notice-item w-clearfix"
+                  v-for="item in noticeInfo"
+                  :key="item.id"
+                >
                   <div class="div-block-46 pointer" @click="handleDetail">
-                    <img
-                      :src="`${$publicPath}images/t1.png`"
-                      alt=""
-                      class="wh100"
-                    />
+                    <img :src="item.file" alt="" class="wh100" />
                   </div>
                   <div class="div-block-47">
                     <h3
                       class="heading-11 ellipsis-2 pointer"
                       @click="handleDetail"
                     >
-                      叙政府军已进入叙北库尔德武装控制区
+                      {{ item.title }}
                     </h3>
                     <p class="paragraph-9 ellipsis-2">
-                      【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。
+                      {{ item.subject }}
                     </p>
                     <div class="div-block-48">
                       <div class="text-block-40">
-                        发布者：中国经济网 | 时间：2019-10-14
+                        发布者：{{ item.createName }} | 时间：{{ item.data }}
                       </div>
                       <div class="div-block-49 pointer">
                         <img
@@ -65,178 +65,17 @@
                           alt=""
                           class="image-17"
                         />
-                        <div class="text-block-39">120</div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="notice-item w-clearfix">
-                  <div class="div-block-46 pointer" @click="handleDetail">
-                    <img
-                      :src="`${$publicPath}images/fb.png`"
-                      alt=""
-                      class="wh100"
-                    />
-                  </div>
-                  <div class="div-block-47">
-                    <h3
-                      class="heading-11 ellipsis-2 pointer"
-                      @click="handleDetail"
-                    >
-                      油轮被炸后，伊朗称发现可创收400亿美元新气田
-                    </h3>
-                    <p class="paragraph-9 ellipsis-2">
-                      伊朗方面于10月13日宣布发现新天然气储备，称将给该国创收400亿美元。伊朗还表示，有能力在未来勘探出新的天然气和石油储备。
-                    </p>
-                    <div class="div-block-48">
-                      <div class="text-block-40">
-                        发布者：中国经济网 | 时间：2019-10-14
-                      </div>
-                      <div class="div-block-49 pointer">
-                        <img
-                          :src="`${$publicPath}images/zan_1zan.png`"
-                          alt=""
-                          class="image-17"
-                        />
-                        <div class="text-block-39">120</div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="notice-item w-clearfix">
-                  <div class="div-block-46 pointer" @click="handleDetail">
-                    <img
-                      :src="`${$publicPath}images/t1.png`"
-                      alt=""
-                      class="wh100"
-                    />
-                  </div>
-                  <div class="div-block-47">
-                    <h3
-                      class="heading-11 ellipsis-2 pointer"
-                      @click="handleDetail"
-                    >
-                      叙政府军已进入叙北库尔德武装控制区
-                    </h3>
-                    <p class="paragraph-9 ellipsis-2">
-                      【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。
-                    </p>
-                    <div class="div-block-48">
-                      <div class="text-block-40">
-                        发布者：中国经济网 | 时间：2019-10-14
-                      </div>
-                      <div class="div-block-49 pointer">
-                        <img
-                          :src="`${$publicPath}images/zan_1zan.png`"
-                          alt=""
-                          class="image-17"
-                        />
-                        <div class="text-block-39">120</div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="notice-item w-clearfix">
-                  <div class="div-block-46 pointer" @click="handleDetail">
-                    <img
-                      :src="`${$publicPath}images/fb.png`"
-                      alt=""
-                      class="wh100"
-                    />
-                  </div>
-                  <div class="div-block-47">
-                    <h3
-                      class="heading-11 ellipsis-2 pointer"
-                      @click="handleDetail"
-                    >
-                      油轮被炸后，伊朗称发现可创收400亿美元新气田
-                    </h3>
-                    <p class="paragraph-9 ellipsis-2">
-                      伊朗方面于10月13日宣布发现新天然气储备，称将给该国创收400亿美元。伊朗还表示，有能力在未来勘探出新的天然气和石油储备。
-                    </p>
-                    <div class="div-block-48">
-                      <div class="text-block-40">
-                        发布者：中国经济网 | 时间：2019-10-14
-                      </div>
-                      <div class="div-block-49 pointer">
-                        <img
-                          :src="`${$publicPath}images/zan_1zan.png`"
-                          alt=""
-                          class="image-17"
-                        />
-                        <div class="text-block-39">120</div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="notice-item w-clearfix">
-                  <div class="div-block-46 pointer" @click="handleDetail">
-                    <img
-                      :src="`${$publicPath}images/t1.png`"
-                      alt=""
-                      class="wh100"
-                    />
-                  </div>
-                  <div class="div-block-47">
-                    <h3
-                      class="heading-11 ellipsis-2 pointer"
-                      @click="handleDetail"
-                    >
-                      叙政府军已进入叙北库尔德武装控制区
-                    </h3>
-                    <p class="paragraph-9 ellipsis-2">
-                      【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。
-                    </p>
-                    <div class="div-block-48">
-                      <div class="text-block-40">
-                        发布者：中国经济网 | 时间：2019-10-14
-                      </div>
-                      <div class="div-block-49 pointer">
-                        <img
-                          :src="`${$publicPath}images/zan_1zan.png`"
-                          alt=""
-                          class="image-17"
-                        />
-                        <div class="text-block-39">120</div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="notice-item w-clearfix">
-                  <div class="div-block-46 pointer" @click="handleDetail">
-                    <img
-                      :src="`${$publicPath}images/fb.png`"
-                      alt=""
-                      class="wh100"
-                    />
-                  </div>
-                  <div class="div-block-47">
-                    <h3
-                      class="heading-11 ellipsis-2 pointer"
-                      @click="handleDetail"
-                    >
-                      油轮被炸后，伊朗称发现可创收400亿美元新气田
-                    </h3>
-                    <p class="paragraph-9 ellipsis-2">
-                      伊朗方面于10月13日宣布发现新天然气储备，称将给该国创收400亿美元。伊朗还表示，有能力在未来勘探出新的天然气和石油储备。
-                    </p>
-                    <div class="div-block-48">
-                      <div class="text-block-40">
-                        发布者：中国经济网 | 时间：2019-10-14
-                      </div>
-                      <div class="div-block-49 pointer">
-                        <img
-                          :src="`${$publicPath}images/zan_1zan.png`"
-                          alt=""
-                          class="image-17"
-                        />
-                        <div class="text-block-39">120</div>
+                        <div class="text-block-39">{{ item.clickNum }}</div>
                       </div>
                     </div>
                   </div>
                 </li>
               </ul>
-              <div class="div-block-50 pointer">
+              <div
+                class="div-block-50 pointer"
+                @click="moreData"
+                v-if="hasMore"
+              >
                 <img
                   :src="`${$publicPath}images/more_1more.png`"
                   alt=""
@@ -268,6 +107,8 @@
 <script>
 import Tabs from "@/components/Tabs.vue";
 import RightList from "@/components/RightList.vue";
+import axios from "axios";
+
 export default {
   name: "Notice",
   components: {
@@ -276,19 +117,13 @@ export default {
   },
   data() {
     return {
-      nav: {
-        title: "通知公告",
-        name: "notice",
-        tabs: [
-          {
-            name: "国际",
-            link: "1"
-          },
-          {
-            name: "国内",
-            link: "2"
-          }
-        ]
+      loadMore: false,
+      hasMore: true,
+      tabNum: 1,
+      noticeInfo: [],
+      paging: {
+        current: 1,
+        size: 6
       },
       list1: [
         {
@@ -344,7 +179,67 @@ export default {
       ]
     };
   },
+  created() {
+    this.getNoticeInfo(this.paging, 1);
+  },
   methods: {
+    moreData() {
+      if (!this.loadMore) {
+        const paging = this.paging;
+        const nextPaging = {
+          current: paging.current + 1,
+          size: 6
+        };
+        this.getNoticeInfo(nextPaging, this.tabNum);
+      }
+    },
+    getTabIndex(idx) {
+      console.log(idx);
+      let category = idx + 1;
+      this.tabNum = category;
+      this.paging = {
+        current: 1,
+        size: 6
+      };
+      this.noticeInfo = [];
+      this.hasMore = true;
+      this.loadMore = false;
+      this.getNoticeInfo(this.paging, category);
+    },
+    getNoticeInfo(argPaging, category) {
+      console.log(argPaging);
+      console.log(category);
+      const url = this.$store.state.url;
+      const paging = argPaging ? argPaging : this.paging;
+      axios
+        .get(`${url}/notice/list`, {
+          params: {
+            category: category,
+            current: paging.current,
+            size: paging.size
+          }
+        })
+        .then(response => {
+          console.log(response);
+          if (response.status == 200) {
+            let records = JSON.parse(
+              JSON.stringify(response.data.data.records)
+            );
+            for (let iterator of records) {
+              iterator.data = iterator.createTime.substr(0, 10);
+            }
+            this.noticeInfo = [...this.noticeInfo, ...records];
+            if (response.data.data.total === this.noticeInfo.length) {
+              this.hasMore = false;
+              this.loadMore = true;
+            }
+          }
+        })
+        .catch(error => {
+          // handle error
+          console.log(error);
+        });
+    },
     handleDetail: function() {
       this.$router.push({
         name: "detail",

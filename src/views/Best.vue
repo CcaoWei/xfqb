@@ -3,7 +3,7 @@
     class="section-4 s-bg-color page"
     :class="{ pb0: $route.name != 'best3' }"
   >
-    <Tabs :data="nav"></Tabs>
+    <Tabs :data="$t('message.bestNav')" @getTabIndex="getTabIndex"></Tabs>
     <!-- 服务展示 -->
     <template v-if="$route.name == 'best3'">
       <div>
@@ -18,7 +18,11 @@
         />
       </div>
       <div class="div-block-36">
-        <form action="/search" class="search-2 w-form">
+        <form
+          action="/search"
+          class="search-2 w-form"
+          @submit.prevent="onSubmit"
+        >
           <input
             type="search"
             class="search-input-2 w-input"
@@ -27,108 +31,37 @@
             placeholder="请输入企业名称"
             id="search-2"
             required=""
+            v-model="enterpriseName"
           /><input type="submit" value="搜索" class="search-button w-button" />
         </form>
       </div>
       <div class="container w-container">
         <div class="page-main">
           <div class="w-layout-grid grid-2">
-            <div class="en-box card-shadow pointer" @click="handleDetail">
+            <div
+              class="en-box card-shadow pointer"
+              @click="handleDetail"
+              v-for="(item, idx) in optimizationList"
+              :key="idx"
+            >
               <div class="en-img">
-                <img
-                  :src="`${$publicPath}images/you1.png`"
-                  alt=""
-                  class="wh100"
-                />
+                <img :src="item.file" alt="" class="wh100" />
               </div>
               <div class="en-bot">
-                <h4 class="heading-9">景区名称</h4>
+                <h4 class="heading-9">{{ item.title }}</h4>
                 <div class="text-block-28">
-                  景区简单介绍，林木叠翠、适合避暑
+                  {{ item.subject }}
                 </div>
-                <div class="text-block-29">浏览人数：120</div>
+                <div class="text-block-29">浏览人数：{{ item.clickNum }}</div>
               </div>
             </div>
-            <div class="en-box card-shadow pointer" @click="handleDetail">
-              <div class="en-img">
-                <img
-                  :src="`${$publicPath}images/you5.png`"
-                  alt=""
-                  class="wh100"
-                />
-              </div>
-              <div class="en-bot">
-                <h4 class="heading-9">景区名称</h4>
-                <div class="text-block-28">
-                  景区简单介绍，林木叠翠、适合避暑
-                </div>
-                <div class="text-block-29">浏览人数：120</div>
-              </div>
-            </div>
-            <div class="en-box card-shadow pointer" @click="handleDetail">
-              <div class="en-img">
-                <img
-                  :src="`${$publicPath}images/you3.png`"
-                  alt=""
-                  class="wh100"
-                />
-              </div>
-              <div class="en-bot">
-                <h4 class="heading-9">餐饮名称</h4>
-                <div class="text-block-28">
-                  餐饮简单介绍，林木叠翠、适合避暑
-                </div>
-                <div class="text-block-29">浏览人数：120</div>
-              </div>
-            </div>
-            <div class="en-box card-shadow pointer" @click="handleDetail">
-              <div class="en-img">
-                <img
-                  :src="`${$publicPath}images/you4.png`"
-                  alt=""
-                  class="wh100"
-                />
-              </div>
-              <div class="en-bot">
-                <h4 class="heading-9">餐饮名称</h4>
-                <div class="text-block-28">
-                  餐饮简单介绍，林木叠翠、适合避暑
-                </div>
-                <div class="text-block-29">浏览人数：120</div>
-              </div>
-            </div>
-            <div class="en-box card-shadow pointer" @click="handleDetail">
-              <div class="en-img">
-                <img
-                  :src="`${$publicPath}images/you5.png`"
-                  alt=""
-                  class="wh100"
-                />
-              </div>
-              <div class="en-bot">
-                <h4 class="heading-9">酒店名称</h4>
-                <div class="text-block-28">
-                  酒店简单介绍，林木叠翠、适合避暑
-                </div>
-                <div class="text-block-29">浏览人数：120</div>
-              </div>
-            </div>
-            <div class="en-box card-shadow pointer" @click="handleDetail">
-              <div class="en-img">
-                <img
-                  :src="`${$publicPath}images/you6.png`"
-                  alt=""
-                  class="wh100"
-                />
-              </div>
-              <div class="en-bot">
-                <h4 class="heading-9">酒店名称</h4>
-                <div class="text-block-28">
-                  酒店简单介绍，林木叠翠、适合避暑
-                </div>
-                <div class="text-block-29">浏览人数：120</div>
-              </div>
-            </div>
+          </div>
+          <div class="div-block-50 pointer" @click="moreData" v-if="hasMore">
+            <img
+              :src="`${$publicPath}images/more_1more.png`"
+              alt
+              class="image-18"
+            />
           </div>
         </div>
       </div>
@@ -276,6 +209,8 @@
 
 <script>
 import Tabs from "@/components/Tabs.vue";
+import axios from "axios";
+
 export default {
   name: "Best",
   components: {
@@ -283,6 +218,8 @@ export default {
   },
   data() {
     return {
+      loadMore: false,
+      hasMore: true,
       nav: {
         title: "铁岭优选",
         name: "best",
@@ -308,10 +245,78 @@ export default {
             link: "5"
           }
         ]
+      },
+      enterpriseName: "",
+      optimizationList: [],
+      paging: {
+        current: 1,
+        size: 6
       }
     };
   },
+  created() {
+    this.getOptimizationData("", this.paging);
+  },
   methods: {
+    onSubmit() {
+      //组织表单提交事件
+      console.log(this.enterpriseName);
+      this.getOptimizationData(this.enterpriseName, this.paging);
+    },
+    moreData() {
+      if (!this.loadMore) {
+        const paging = this.paging;
+        const nextPaging = {
+          current: paging.current + 1,
+          size: 6
+        };
+        this.getOptimizationData(this.enterpriseName, nextPaging);
+      }
+    },
+    getTabIndex(idx) {
+      console.log(idx);
+      this.paging = {
+        current: 1,
+        size: 6
+      };
+      this.optimizationList = [];
+      this.hasMore = true;
+      this.loadMore = false;
+      if (idx == 2) {
+        this.getOptimizationData(this.enterpriseName, this.paging);
+      }
+    },
+    //获取铁岭优选数据  默认获取申请入住
+    getOptimizationData(name, argPaging) {
+      console.log(name, argPaging);
+      const url = this.$store.state.url;
+      const paging = argPaging ? argPaging : this.paging;
+      axios
+        .get(`${url}/op/list`, {
+          params: {
+            name: name,
+            current: paging.current,
+            size: paging.size
+          }
+        })
+        .then(response => {
+          if (response.status == 200) {
+            let records = JSON.parse(
+              JSON.stringify(response.data.data.records)
+            );
+            this.optimizationList = [...this.optimizationList, ...records];
+            if (response.data.data.total === this.optimizationList.length) {
+              this.hasMore = false;
+              this.loadMore = true;
+            }
+          }
+          console.log(this);
+        })
+        .catch(error => {
+          // handle error
+          console.log(error);
+        });
+    },
     handleApply: function() {
       this.$router.push({
         name: "apply",

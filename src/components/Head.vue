@@ -8,11 +8,7 @@
     >
       <div class="navigation-wrap">
         <router-link to="/" id="logo" class="logo-link w-nav-brand w--current"
-          ><img
-            :src="`${$publicPath}images/logo_name_white.png`"
-            width="108"
-            alt=""
-            class="logo-image"
+          ><img :src="logo" width="108" alt="" class="logo-image"
         /></router-link>
         <div id="menu" class="menu">
           <nav role="navigation" class="navigation-items w-nav-menu">
@@ -23,8 +19,8 @@
               :class="{ current: item.link == routeValue }"
               v-for="(item, index) in $t('message.nav')"
               :key="index"
-              >{{ item.name }}</router-link
-            >
+              v-html="item.name"
+            ></router-link>
           </nav>
           <div class="menu-button w-nav-button">
             <img
@@ -61,8 +57,65 @@
           </div>
           <div id="name" class="text-block-15">Clayton Long</div>
         </div> -->
+        <div class="div-block-3">
+          <form action="/search" class="search w-form">
+            <input
+              type="search"
+              class="search-input w-input"
+              maxlength="256"
+              name="query"
+              placeholder="Search…"
+              id="search"
+              required=""
+            />
+            <img :src="`${$publicPath}images/search_1search.png`" alt="" />
+            <!-- <input type="submit" value="搜索" class="search-btn w-button" /> -->
+            <div class="div-block-19"></div>
+            <div class="language">
+              <el-select
+                v-model="languageValue"
+                placeholder="请选择"
+                @change="changeLanguage"
+              >
+                <template slot="prefix">
+                  <img
+                    :src="`${$publicPath}images/` + languageValue + `.png`"
+                    class="flag"
+                  />
+                </template>
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                  <div class="language-item">
+                    <span>
+                      <img
+                        :src="`${$publicPath}images/` + item.value + `.png`"
+                      />
+                    </span>
+                    <span>{{ item.label }}</span>
+                  </div>
+                  <!-- <span style="float: left; color: #8492a6; font-size: 13px">
+                    <img :src="`${$publicPath}images/zh.png`">
+                  </span>
+                  <span style="float: right">{{ item.label }}</span> -->
+                </el-option>
+              </el-select>
+            </div>
+          </form>
+          <!-- <div id="head" class="div-block-13">
+            <img
+              :src="`${$publicPath}images/head.png`"
+              alt=""
+              class="image-10"
+            />
+          </div>
+          <div id="name" class="text-block-15">Clayton Long</div> -->
+        </div>
       </div>
-      <div class="c-language">
+      <!-- <div class="c-language">
         <el-select v-model="value" @change="changeLanguage">
           <el-option
             v-for="item in options"
@@ -72,12 +125,12 @@
           >
           </el-option>
         </el-select>
-      </div>
+      </div> -->
     </div>
     <div class="s-bg about-top-bg" v-if="$route.name !== 'home'"></div>
   </div>
 </template>
-<style>
+<style lang="less" scoped>
 .c-language {
   position: absolute;
   right: 20px;
@@ -94,8 +147,83 @@
 .el-select .el-input .el-select__caret {
   color: #fff !important;
 }
+.head-line {
+  height: 5px;
+  background-color: #28b2a5;
+  position: relative;
+  z-index: 222;
+}
+.language {
+  display: flex;
+  /deep/ .el-select {
+    max-width: 110px;
+    .el-input__inner {
+      border: 1px solid rgba(248, 248, 248, 0.46);
+      border-radius: 10.5px;
+      height: 21px;
+      line-height: 21px;
+      font-size: 12px;
+      padding-left: 35px;
+      padding-right: 0;
+      background-color: transparent;
+      color: #fff;
+    }
+    .el-input__prefix {
+      left: 9px;
+      top: 50%;
+      margin-top: -6px;
+    }
+    .el-icon-arrow-up:before {
+      content: "\e78f";
+    }
+    .el-input {
+      overflow: hidden;
+      .el-select__caret {
+        color: #fff;
+        line-height: 21px;
+        font-size: 12px;
+        height: 21px;
+      }
+    }
+    .el-input.is-focus {
+      .el-input__inner {
+        border-color: #fff;
+      }
+    }
+  }
+}
+.language-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.el-select-dropdown__item {
+  padding-left: 16px;
+  padding-right: 16px;
+  &.selected {
+    color: #27b2a5;
+  }
+}
+.el-scrollbar__wrap {
+  width: 100%;
+}
+.search {
+  margin-right: 0;
+}
+.div-block-19 {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+@media (max-width: 991px) {
+  .search {
+    margin-right: 20px;
+  }
+}
 </style>
 <script>
+import { log } from "util";
+import axios from "axios";
+
 export default {
   name: "Head",
   // props: {
@@ -112,6 +240,8 @@ export default {
   },
   data() {
     return {
+      languageValue: "zh",
+      logo: "",
       value: "中文",
       // publicPath: process.env.BASE_URL
       nav: [
@@ -166,8 +296,25 @@ export default {
   },
   created() {
     this.changeLanguage(this.$i18n.locale);
+    this.getlogo();
   },
   methods: {
+    getlogo() {
+      const url = this.$store.state.url;
+      axios
+        .get(`${url}/bu/main`)
+        .then(response => {
+          console.log(response);
+          if (response.status === 200) {
+            this.logo = response.data.data.logo;
+          }
+          console.log(this.logo);
+        })
+        .catch(error => {
+          // handle error
+          console.log(error);
+        });
+    },
     //语言问题   语言切换
     changeLanguage(val) {
       switch (val) {

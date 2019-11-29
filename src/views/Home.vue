@@ -10,13 +10,10 @@
       >
         <div class="w-slider-mask">
           <div
-            ref="slide"
             :class="'slide-' + (index + 1) + ' w-slide'"
             v-for="(item, index) in slideList"
             :key="index"
-            :style="item.img"
           >
-            <!-- <img :src="item.file" class="c-banner" alt=""> -->
             <div class="top-num">
               <div class="text-block-3">{{ index + 1 }}</div>
               <div class="text-block-2">
@@ -29,9 +26,15 @@
             </div>
             <div class="top-info">
               <h2 class="top-title" v-html="item.title"></h2>
-              <div class="top-text" v-html="item.subject"></div>
+              <!-- <div class="top-text" v-html="item.subject"></div> -->
             </div>
             <div class="top-nav">
+              <div
+                v-for="(info, i) in 3"
+                :key="i"
+                class="top-nav-dot"
+                :class="{ 'nav-active': i == index }"
+              ></div>
               <div class="columns-8 w-row">
                 <div
                   class="nav-normal w-col w-col-4 w-col-tiny-4"
@@ -39,7 +42,7 @@
                   :key="i"
                   :class="{ 'nav-active': i == index }"
                 >
-                  <div class="text-block-4">{{ info.text }}</div>
+                  <!-- <div class="text-block-4">{{ info.text }}</div> -->
                   <h3 class="heading">{{ info.title }}</h3>
                 </div>
               </div>
@@ -47,10 +50,10 @@
           </div>
         </div>
         <div class="left-arrow w-slider-arrow-left">
-          <img :src="`${$publicPath}images/left_1left.png`" alt />
+          <img :src="`${$publicPath}images/left_1left.png`" alt="" />
         </div>
         <div class="right-arrow w-slider-arrow-right">
-          <img :src="`${$publicPath}images/right.png`" alt />
+          <img :src="`${$publicPath}images/right.png`" alt="" />
         </div>
         <div class="slide-nav w-slider-nav w-round"></div>
       </div>
@@ -60,9 +63,12 @@
     <div id="enterprise" class="section-2 tab-box">
       <div class="container w-container">
         <div class="title-box">
-          <h2 class="main-title">业务分类</h2>
+          <h2
+            class="main-title"
+            v-html="$t('message.businessClassification')"
+          ></h2>
           <div class="text-block-7">。</div>
-          <div class="main-text">Enterprise classification</div>
+          <!-- <div class="main-text">Enterprise classification</div> -->
         </div>
         <div
           data-duration-in="300"
@@ -71,13 +77,13 @@
         >
           <div class="tabs-menu w-tab-menu">
             <a
-              :data-w-tab="item.type"
+              :data-w-tab="item.link"
               class="notice-tab w-inline-block w-tab-link"
               :class="{ 'w--current': index == 0 }"
-              v-for="(item, index) in $t('message.businessDataTab')"
+              v-for="(item, index) in $t('message.buNav.tabs')"
               :key="index"
             >
-              <div class="text-block-6">{{ item.title }}</div>
+              <div class="text-block-6">{{ item.name }}</div>
             </a>
           </div>
           <div class="tabs-content-2 w-tab-content">
@@ -112,7 +118,10 @@
                           class="more-btn w-inline-block"
                           @click="handleLink('service', index)"
                         >
-                          <div class="text-block-45">MORE</div>
+                          <div
+                            class="text-block-45"
+                            v-html="$t('message.moreData')"
+                          ></div>
                           <img
                             :src="`${$publicPath}images/icon10_1icon10.png`"
                             alt
@@ -155,9 +164,8 @@
                                   <div
                                     class="text-block-12"
                                     @click="handleLink('service', index)"
-                                  >
-                                    MORE
-                                  </div>
+                                    v-html="$t('message.moreData')"
+                                  ></div>
                                   <img
                                     :src="
                                       `${$publicPath}images/icon12_1icon12.png`
@@ -193,10 +201,13 @@
       <div class="container w-container">
         <div class="title-box">
           <h2 class="main-title">
-            <strong class="main-title">铁岭优选</strong>
+            <strong
+              class="main-title"
+              v-html="$t('message.optimization')"
+            ></strong>
           </h2>
           <div class="text-block-7">。</div>
-          <div class="main-text">Tieling optimization</div>
+          <!-- <div class="main-text">Tieling optimization</div> -->
         </div>
         <div data-duration-in="300" data-duration-out="100" class="tabs w-tabs">
           <div class="tabs-menu-4 w-tab-menu">
@@ -204,7 +215,11 @@
               data-w-tab="Tab 1"
               class="notice-tab w-inline-block w-tab-link w--current"
             >
-              <div class="text-block-6">更多</div>
+              <div
+                class="text-block-6"
+                @click="handleLink('best')"
+                v-html="$t('message.moreData')"
+              ></div>
             </a>
           </div>
           <div class="tabs-content-3 w-tab-content">
@@ -271,10 +286,10 @@
       <div class="container w-container">
         <div class="title-box">
           <h2 class="main-title">
-            <strong class="main-title">银行分行</strong>
+            <strong class="main-title" v-html="$t('message.branch')"></strong>
           </h2>
           <div class="text-block-7">。</div>
-          <div class="main-text">Branch/enterprise</div>
+          <!-- <div class="main-text">Branch/enterprise</div> -->
         </div>
         <div data-duration-in="300" data-duration-out="100" class="tabs w-tabs">
           <div class="tabs-menu-4 w-tab-menu">
@@ -282,7 +297,11 @@
               data-w-tab="Tab 1"
               class="notice-tab w-inline-block w-tab-link w--current"
             >
-              <div class="text-block-6">更多</div>
+              <div
+                class="text-block-6"
+                @click="handleLink('branch')"
+                v-html="$t('message.moreData')"
+              ></div>
             </a>
           </div>
           <div class="tabs-content-3 w-tab-content">
@@ -294,7 +313,23 @@
                 class="amap-demo"
                 :center="center"
                 :zoom="zoom"
-              ></el-amap>
+              >
+                <el-amap-marker
+                  v-for="(marker, index) in markers"
+                  :key="index"
+                  :position="marker.position"
+                  :events="marker.events"
+                  :visible="marker.visible"
+                  :draggable="marker.draggable"
+                  :vid="index"
+                ></el-amap-marker>
+                <el-amap-info-window
+                  v-if="window"
+                  :position="window.position"
+                  :visible="window.visible"
+                  :content="window.content"
+                ></el-amap-info-window>
+              </el-amap>
               <!-- <div
                 class="my-map"
                 :style="
@@ -315,9 +350,9 @@
     <div id="product" class="section-2 product">
       <div class="container w-container">
         <div class="title-box">
-          <h2 class="main-title">产品采购</h2>
+          <h2 class="main-title" v-html="$t('message.purchase')"></h2>
           <div class="text-block-7">。</div>
-          <div class="main-text">Product purchase</div>
+          <!-- <div class="main-text">Product purchase</div> -->
         </div>
         <div
           data-duration-in="300"
@@ -329,12 +364,12 @@
               data-w-tab="Tab 1"
               class="notice-tab w-inline-block w-tab-link w--current"
             >
-              <div 
+              <div
                 class="text-block-6"
                 v-for="(mpItem, index) in $t('message.purchaseDataTab')"
                 :key="index"
               >
-                {{mpItem.title}}
+                {{ mpItem.title }}
               </div>
             </a>
           </div>
@@ -385,9 +420,9 @@
     <div id="policies" class="policies">
       <div class="container w-container">
         <div class="title-box">
-          <h2 class="main-title">政策法规</h2>
+          <h2 class="main-title" v-html="$t('message.statute')"></h2>
           <div class="text-block-7">。</div>
-          <div class="main-text">Policies and regulations</div>
+          <!-- <div class="main-text">Policies and regulations</div> -->
         </div>
         <div data-duration-in="300" data-duration-out="100" class="w-tabs">
           <div class="tabs-menu-3 w-tab-menu">
@@ -432,7 +467,7 @@
                       >
                         <!-- <img src="images/fb.png" srcset="images/fb-p-500.png 500w, images/fb.png 653w" sizes="(max-width: 767px) 100vw, (max-width: 991px) 53vw, 48vw" alt="" class="image-11"> -->
                         <img
-                          :src="imgItem"
+                          :src="imgItem.file"
                           alt
                           class="image-11"
                           v-for="(imgItem, n) in pItem.images"
@@ -448,7 +483,7 @@
                           :class="{ active: j == imgIndex }"
                           @click="handleImg(j)"
                         >
-                          <img :src="img" alt class="image-12" />
+                          <img :src="img.file" alt class="image-12" />
                         </div>
                       </div>
                     </div>
@@ -484,9 +519,9 @@
     <div id="notice" class="section-2 notice">
       <div class="container notice-box w-container">
         <div class="title-box">
-          <h2 class="main-title">通知公告</h2>
+          <h2 class="main-title" v-html="$t('message.notice')"></h2>
           <div class="text-block-7">。</div>
-          <div class="main-text">Notice announcement</div>
+          <!-- <div class="main-text">Notice announcement</div> -->
         </div>
         <div
           data-duration-in="300"
@@ -498,10 +533,10 @@
               :data-w-tab="item.type"
               class="notice-tab w-inline-block w-tab-link"
               :class="{ 'w--current': index == 0 }"
-              v-for="(item, index) in  $t('message.noticeDataTab')"
+              v-for="(item, index) in $t('message.noticeDataTab')"
               :key="index"
             >
-              <div class="text-block-6" >{{ item.title }}</div>
+              <div class="text-block-6">{{ item.title }}</div>
             </a>
           </div>
           <div class="tabs-content w-tab-content">
@@ -562,19 +597,42 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 import axios from "axios";
 
+const exampleComponents = {
+  props: ["text"],
+  template: `<div>text from  parent: {{text}}</div>`
+};
+
 export default {
-  name: "home",
+  name: "amap-page",
   components: {
     HelloWorld
   },
   data() {
     let self = this;
     return {
-      center: [121.59996, 31.197646],
-      zoom: 18,
-      lng: 0,
-      lat: 0,
+      zoom: 8,
+      center: [116.458, 39.42],
+      windows: [],
+      markers: [
+        {
+          position: [116.458, 39.42],
+          events: {
+            click: e => {
+              this.windows.forEach(window => {
+                window.visible = false;
+              });
+              this.window = this.windows[i];
+              this.$nextTick(() => {
+                this.window.visible = true;
+              });
+            }
+          },
+          visible: true,
+          draggable: false
+        }
+      ],
       loaded: false,
+      window: {},
       plugin: [
         {
           pName: "Geolocation",
@@ -596,11 +654,11 @@ export default {
       ],
       slideList: [
         {
-          title: "铁岭银行“微时贷”助力<br>您的事业梦 。",
+          title: "银行“微时贷”助力<br>您的事业梦 。",
           text: "Changbai Mountain<br>Forest hot spring health resort.",
           info: [
             {
-              title: "铁岭银行",
+              title: "银行",
               text: "Latest information"
             },
             {
@@ -614,11 +672,11 @@ export default {
           ]
         },
         {
-          title: "铁岭银行“微时贷”助力<br>您的事业梦 。",
+          title: "银行“微时贷”助力<br>您的事业梦 。",
           text: "Changbai Mountain<br>Forest hot spring health resort.",
           info: [
             {
-              title: "铁岭银行",
+              title: "银行",
               text: "Latest information"
             },
             {
@@ -632,11 +690,11 @@ export default {
           ]
         },
         {
-          title: "铁岭银行“微时贷”助力<br>您的事业梦 。",
+          title: "银行“微时贷”助力<br>您的事业梦 。",
           text: "Changbai Mountain<br>Forest hot spring health resort.",
           info: [
             {
-              title: "铁岭银行",
+              title: "银行",
               text: "Latest information"
             },
             {
@@ -664,206 +722,7 @@ export default {
           text: "Latest information"
         }
       ],
-      businessData: [
-        {
-          title: "账户管理",
-          data: [
-            {
-              info: {
-                title: "努力打造实力金融，不断铸就品质",
-                text:
-                  "铁岭银行个人业务主要包括储蓄业务、贷款业务、中间业务以及其他个人业务。",
-                link: "#"
-              },
-              list: [
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: "转账汇款",
-          data: [
-            {
-              info: {
-                title: "的方法你能否烦烦烦反对，不断铸就品质",
-                text:
-                  "铁岭银行个人业务主要包括储蓄业务、贷款业务、中间业务以及其他个人业务。",
-                link: "#"
-              },
-              list: [
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: "定活互转",
-          data: [
-            {
-              info: {
-                title: "电风扇发射点冯绍峰士大夫，不断铸就品质",
-                text:
-                  "铁岭银行个人业务主要包括储蓄业务、贷款业务、中间业务以及其他个人业务。",
-                link: "#"
-              },
-              list: [
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: "代理缴费",
-          data: [
-            {
-              info: {
-                title: "的发生发生发射点发，不断铸就品质",
-                text:
-                  "铁岭银行个人业务主要包括储蓄业务、贷款业务、中间业务以及其他个人业务。",
-                link: "#"
-              },
-              list: [
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: "特色业务",
-          data: [
-            {
-              info: {
-                title: "幅度萨芬撒旦飞洒地方，不断铸就品质",
-                text:
-                  "铁岭银行个人业务主要包括储蓄业务、贷款业务、中间业务以及其他个人业务。",
-                link: "#"
-              },
-              list: [
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: "信用卡",
-          data: [
-            {
-              info: {
-                title: "大师傅士大夫撒旦发生融，不断铸就品质",
-                text:
-                  "铁岭银行个人业务主要包括储蓄业务、贷款业务、中间业务以及其他个人业务。",
-                link: "#"
-              },
-              list: [
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                },
-                {
-                  title: "标题文字位置",
-                  text: "统筹集团债务额度，融资模式等融资的关键条件。",
-                  link: "#"
-                  // img: `${$publicPath}images/y1.png`
-                }
-              ]
-            }
-          ]
-        }
-      ],
+      businessData: [],
       optimization: [],
       imgIndex: 0,
       policiesDataTab: [
@@ -874,205 +733,31 @@ export default {
           title: "政策解读"
         }
       ],
-      policiesData: [
-        {
-          title: "行业法规",
-          data: {
-            preImg: [
-              {
-                small: "images/f1.png",
-                big: "images/fb.png"
-              },
-              {
-                small: "images/f2.png",
-                big: "images/f2.png"
-              },
-              {
-                small: "images/f3.png",
-                big: "images/f3.png"
-              },
-              {
-                small: "images/f4.png",
-                big: "images/f4.png"
-              }
-            ],
-            list: [
-              {
-                title: "学习雷锋好榜样，忠于革命忠于党",
-                text:
-                  " “学习雷锋好榜样，忠于革命忠于党，爱憎分明不忘本，立场坚定斗志强......”伴随着激情悠扬的歌声，我们迎来了3月5日第56个全国学雷锋纪念日，也是第20个中国青年志愿者服务日。为深入贯彻落实习近平总书记关于学习雷锋的重要论述和重要指示批示精神，结合团组织的号召，昌图支行联合团昌图县委、教育局团委、县中心医院、昌图县青年志愿者协会青年志愿者、铁北小学和北山小学学生等多家单位代表80余人来到昌图县社会福利院慰问老人，为福利院老人送去大米、白面、豆油、水果、糕点等多种生活所需慰问品。",
-                time: "2019-10-10"
-              },
-              {
-                title: "西丰支行获西丰县金融工作单位两项荣誉称号",
-                text:
-                  "2018年3月4日，西丰县人民政府金融工作办公室和中国人民银行西丰县支行联合召开金融工作会议。会上颁布了《关于表彰2018年西丰县金融工作先进单位的决定》。",
-                time: "2019-10-10"
-              },
-              {
-                title: "西丰支行春节走访贫困户",
-                text:
-                  "2019年1月30日，西丰支行马兵副行长一行五人来到明德乡居贤村，为十户困难家庭送去米、面、油等春节慰问品。走访中，行领导关心了贫困户的生活情况和家人身体状况，并鼓励他们要坚强面对生活，希望他们能够过一个快乐祥和的新年。",
-                time: "2019-10-10"
-              }
-            ]
-          }
-        },
-        {
-          title: "政策解读",
-          data: {
-            preImg: [
-              {
-                small: "images/f1.png",
-                big: "images/fb.png"
-              },
-              {
-                small: "images/f2.png",
-                big: "images/f2.png"
-              },
-              {
-                small: "images/f3.png",
-                big: "images/f3.png"
-              },
-              {
-                small: "images/f4.png",
-                big: "images/f4.png"
-              }
-            ],
-            list: [
-              {
-                title: "学习雷锋好榜样，忠于革命忠于党",
-                text:
-                  " “学习雷锋好榜样，忠于革命忠于党，爱憎分明不忘本，立场坚定斗志强......”伴随着激情悠扬的歌声，我们迎来了3月5日第56个全国学雷锋纪念日，也是第20个中国青年志愿者服务日。为深入贯彻落实习近平总书记关于学习雷锋的重要论述和重要指示批示精神，结合团组织的号召，昌图支行联合团昌图县委、教育局团委、县中心医院、昌图县青年志愿者协会青年志愿者、铁北小学和北山小学学生等多家单位代表80余人来到昌图县社会福利院慰问老人，为福利院老人送去大米、白面、豆油、水果、糕点等多种生活所需慰问品。",
-                time: "2019-10-10"
-              },
-              {
-                title: "西丰支行获西丰县金融工作单位两项荣誉称号",
-                text:
-                  "2018年3月4日，西丰县人民政府金融工作办公室和中国人民银行西丰县支行联合召开金融工作会议。会上颁布了《关于表彰2018年西丰县金融工作先进单位的决定》。",
-                time: "2019-10-10"
-              },
-              {
-                title: "西丰支行春节走访贫困户",
-                text:
-                  "2019年1月30日，西丰支行马兵副行长一行五人来到明德乡居贤村，为十户困难家庭送去米、面、油等春节慰问品。走访中，行领导关心了贫困户的生活情况和家人身体状况，并鼓励他们要坚强面对生活，希望他们能够过一个快乐祥和的新年。",
-                time: "2019-10-10"
-              }
-            ]
-          }
-        }
-      ],
+      policiesData: [],
       purchase: [],
       noticeDataTab: [{ title: "国内资讯" }, { title: "国际资讯" }],
-      noticeData: [
-        {
-          title: "国际资讯",
-          data: [
-            {
-              title: "叙政府军已进入叙北库尔德武装控制区",
-              text:
-                "【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。",
-              img: "images/news5.png",
-              link: "#",
-              time: "2019-09-29"
-            },
-            {
-              title: "油轮被炸后，伊朗称发现可创收400亿美元新气田",
-              text:
-                "伊朗方面于10月13日宣布发现新天然气储备，称将给该国创收400亿美元。伊朗还表示，有能力在未来勘探出新的天然气和石油储备。",
-              img: "images/news2.png",
-              link: "#",
-              time: "2019-09-28"
-            },
-            {
-              title: "西班牙严惩加泰罗尼亚分裂分子，9名领导人入狱",
-              text:
-                "当地时间10月14日，西班牙最高法院宣布，9名分裂分子煽动叛乱罪成立，对他们判处9到13年有期徒刑。中国日报网10月14日电（严玉洁） 2017年10月，西班牙加泰罗尼亚自治区（加区）举行“独立公投”，随后单方面宣布“独立”。对于分裂势力领导人，西班牙政府进行了严惩。据路透社报道，当地时间10月14日，西班牙最高法院宣布，9名分裂分子煽动叛乱罪成立，对他们判处9到13年有期徒刑。另有3名被告只犯下违抗罪，没有被判处入狱。",
-              img: "images/news3.png",
-              link: "#",
-              time: "2019-09-27"
-            },
-            {
-              title: "韩媒称韩国艺人崔雪莉被发现死在家中 死因未明",
-              text:
-                "【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。",
-              img: "images/news4.png",
-              link: "#",
-              time: "2019-09-26"
-            },
-            {
-              title: "英国女王：10月31日前脱欧是政府首要任务",
-              text:
-                "【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。",
-              img: "images/news5.png",
-              link: "#",
-              time: "2019-09-25"
-            }
-          ]
-        },
-        {
-          title: "国内资讯",
-          data: [
-            {
-              title: "叙政府军已进入叙北库尔德武装控制区",
-              text:
-                "【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。",
-              img: "images/news5.png",
-              link: "#",
-              time: "2019-09-29"
-            },
-            {
-              title: "油轮被炸后，伊朗称发现可创收400亿美元新气田",
-              text:
-                "伊朗方面于10月13日宣布发现新天然气储备，称将给该国创收400亿美元。伊朗还表示，有能力在未来勘探出新的天然气和石油储备。",
-              img: "images/news2.png",
-              link: "#",
-              time: "2019-09-28"
-            },
-            {
-              title: "西班牙严惩加泰罗尼亚分裂分子，9名领导人入狱",
-              text:
-                "当地时间10月14日，西班牙最高法院宣布，9名分裂分子煽动叛乱罪成立，对他们判处9到13年有期徒刑。中国日报网10月14日电（严玉洁） 2017年10月，西班牙加泰罗尼亚自治区（加区）举行“独立公投”，随后单方面宣布“独立”。对于分裂势力领导人，西班牙政府进行了严惩。据路透社报道，当地时间10月14日，西班牙最高法院宣布，9名分裂分子煽动叛乱罪成立，对他们判处9到13年有期徒刑。另有3名被告只犯下违抗罪，没有被判处入狱。",
-              img: "images/news3.png",
-              link: "#",
-              time: "2019-09-27"
-            },
-            {
-              title: "韩媒称韩国艺人崔雪莉被发现死在家中 死因未明",
-              text:
-                "【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。",
-              img: "images/news4.png",
-              link: "#",
-              time: "2019-09-26"
-            },
-            {
-              title: "英国女王：10月31日前脱欧是政府首要任务",
-              text:
-                "【环球网快讯】“今日俄罗斯”(RT)14日援引阿拉伯叙利亚通讯社(SANA)消息称，在土耳其与叙利亚库尔德武装交火之际，当地时间14日，叙利亚政府军部队进入叙北部库尔德人实际控制的泰勒塔米尔市。报道称，该市规模较小，但位于几条主干道交汇处，具有重大战略意义。",
-              img: "images/news5.png",
-              link: "#",
-              time: "2019-09-25"
-            }
-          ]
-        }
-      ]
+      noticeData: []
     };
   },
   mounted() {
     this.getHomeInfo();
   },
+
   methods: {
     //处理banner图数据
     setBanner(msg) {
       for (let item of msg) {
-        item.img = `background-image:url(${item.file});background-repeat: no-repeat;`;
+        item.img = `background-image:url(${item.file});`;
+        let info = [];
+        item.info = info;
       }
+      console.log(msg);
       this.slideList = msg;
     },
     //处理通知公告数据
     setNotice(msg) {
       console.log(msg);
-      msg.forEach((element,idx) => {
+      msg.forEach((element, idx) => {
         element.title = element[0].categoryName;
         element.type = idx;
         for (let iterator of element) {
@@ -1081,7 +766,6 @@ export default {
         }
       });
       this.noticeData = msg;
-      console.log(this);
     },
     //处理铁岭优选数据
     setTieling(msg) {
@@ -1093,7 +777,7 @@ export default {
     },
     //处理政策法规数据
     setRegulations(msg) {
-      msg.forEach((element,idx) => {
+      msg.forEach((element, idx) => {
         element.type = idx;
         element.title = element.list[0].categoryName;
         console.log(element);
@@ -1104,7 +788,7 @@ export default {
     setClassification(buType) {
       buType.forEach((item, idx) => {
         item.data = [];
-        item.type = idx;
+        item.type = idx + 1;
         let all = {};
         let info = {};
         info.title = item.title;
@@ -1115,7 +799,45 @@ export default {
       });
       this.businessData = buType;
     },
-
+    setAmap(bkList) {
+      bkList.forEach((item, i) => {
+        if (i == 0) {
+          this.center = [item.lng, item.lat];
+        }
+        let marker = {
+          position: [item.lng, item.lat],
+          events: {
+            click: e => {
+              this.windows.forEach(window => {
+                window.visible = false;
+              });
+              this.window = this.windows[i];
+              this.$nextTick(() => {
+                this.window.visible = true;
+              });
+            }
+          },
+          visible: true,
+          draggable: false
+        };
+        let currentWindow = {
+          position: [item.lng, item.lat],
+          content: item.title,
+          visible: true,
+          events: {
+            close() {
+              console.log("close infowindow1");
+            }
+          }
+        };
+        this.windows.push(currentWindow);
+        this.window = this.windows[0];
+        this.markers.push(marker);
+      });
+      console.log(this);
+      console.log(this.markers);
+      console.log(this.windows);
+    },
     //获取主页需要的信息
     getHomeInfo() {
       const url = this.$store.state.url;
@@ -1136,9 +858,13 @@ export default {
             this.setRegulations(stList);
             let buType = response.data.data.buType;
             this.setClassification(buType);
+
+            // this.$store.commit("logoUrl", response.data.data.logo);
+            let bkList = response.data.data.bkList;
+            this.setAmap(bkList);
           }
         })
-        .catch(function(error) {
+        .catch(error => {
           // handle error
           console.log(error);
         });
@@ -1153,8 +879,6 @@ export default {
       this.$router.push({ name: "detail", query: { page: page, tab: index } });
     },
     handleLink(page, index = 0) {
-      // console.log(page)
-      // this.$router.push();
       this.$router.push("/" + page + "/" + (index + 1));
     }
   }
