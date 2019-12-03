@@ -51,7 +51,7 @@ export default {
           }
           console.log(this);
         })
-        .catch(function(error) {
+        .catch(error => {
           // handle error
           console.log(error);
         });

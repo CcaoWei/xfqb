@@ -6,7 +6,13 @@
         <div class="two-list w-clearfix">
           <div class="two-left">
             <div class="news-box">
-              <div
+              <el-carousel :interval="5000" arrow="always" class="slider-5 w-slider">
+                <el-carousel-item v-for="item in noticeInfo" :key="item.id">
+                  <img :src="item.file" alt="" class="c-swiper">
+                  <div class="page-slide-title"><div class="text-block-46"> {{item.title}} </div></div>
+                </el-carousel-item>
+              </el-carousel>
+              <!-- <div
                 data-animation="slide"
                 data-duration="500"
                 data-infinite="1"
@@ -15,16 +21,12 @@
                 <div class="w-slider-mask">
                   <div class="slide-5 w-slide pointer" @click="handleDetail">
                     <div class="page-slide-title">
-                      <div class="text-block-46">
-                        英国女王：10月wss31日前脱欧是政府首要任务
-                      </div>
+                      <div class="text-block-46">英国女王：10月wss31日前脱欧是政府首要任务</div>
                     </div>
                   </div>
                   <div class="slide-5 w-slide pointer" @click="handleDetail">
                     <div class="page-slide-title">
-                      <div class="text-block-46">
-                        英国女王：10月31日前脱欧是政府首要任务
-                      </div>
+                      <div class="text-block-46">英国女王：10月31日前脱欧是政府首要任务</div>
                     </div>
                   </div>
                 </div>
@@ -35,75 +37,72 @@
                   <div class="w-icon-slider-right"></div>
                 </div>
                 <div class="w-slider-nav w-round"></div>
-              </div>
+              </div> -->
               <ul class="notice-list w-list-unstyled">
-                <li
-                  class="notice-item w-clearfix"
-                  v-for="item in noticeInfo"
-                  :key="item.id"
-                >
-                  <div class="div-block-46 pointer" @click="handleDetail">
-                    <img :src="item.file" alt="" class="wh100" />
+                <li class="notice-item w-clearfix" v-for="item in noticeInfo" :key="item.id">
+                  <div class="div-block-46 pointer" @click="handleDetail(item.id)">
+                    <img :src="item.file" alt class="wh100" />
                   </div>
                   <div class="div-block-47">
                     <h3
                       class="heading-11 ellipsis-2 pointer"
-                      @click="handleDetail"
-                    >
-                      {{ item.title }}
-                    </h3>
-                    <p class="paragraph-9 ellipsis-2">
-                      {{ item.subject }}
-                    </p>
+                      @click="handleDetail(item.id)"
+                    >{{ item.title }}</h3>
+                    <p class="paragraph-9 ellipsis-2">{{ item.subject }}</p>
                     <div class="div-block-48">
-                      <div class="text-block-40">
-                        发布者：{{ item.createName }} | 时间：{{ item.data }}
-                      </div>
+                      <div class="text-block-40">发布者：{{ item.createName }} | 时间：{{ item.data }}</div>
                       <div class="div-block-49 pointer">
-                        <img
-                          :src="`${$publicPath}images/zan_1zan.png`"
-                          alt=""
-                          class="image-17"
-                        />
+                        <img :src="`${$publicPath}images/zan_1zan.png`" alt class="image-17" />
                         <div class="text-block-39">{{ item.clickNum }}</div>
                       </div>
                     </div>
                   </div>
                 </li>
               </ul>
-              <div
-                class="div-block-50 pointer"
-                @click="moreData"
-                v-if="hasMore"
-              >
-                <img
-                  :src="`${$publicPath}images/more_1more.png`"
-                  alt=""
-                  class="image-18"
-                />
+              <div class="div-block-50 pointer" @click="moreData" v-if="hasMore">
+                <img :src="`${$publicPath}images/more_1more.png`" alt class="image-18" />
               </div>
             </div>
           </div>
           <div class="two-right">
-            <RightList :data="list1" @handleDetail="handleDetail"></RightList>
-            <RightList
-              :data="list2"
-              listType="2"
-              @handleDetail="handleDetail"
-            ></RightList>
-            <a href="#" class="two-right-ad w-inline-block"
-              ><img
-                :src="`${$publicPath}images/new-ad.png`"
-                alt=""
-                class="img100"
-            /></a>
+            <RightList :data="list1" @click="handleDetail"></RightList>
+            <RightList :data="list2" listType="2" @click="handleDetail"></RightList>
+            <a href="#" class="two-right-ad w-inline-block">
+              <img :src="`${$publicPath}images/new-ad.png`" alt class="img100" />
+            </a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
+<style lang="less" >
+  .slider-5 .el-carousel__container .el-carousel__arrow--right{
+     right: 0;
+    left: auto;
+    top: 50%;
+    border: none;
+    background: rgba(0,0,0,0);
+     
+  }
+  .slider-5 .el-carousel__container .el-carousel__arrow--left{
+    top: 50%;
+    left: 0;
+    border: none;
+    background: rgba(0,0,0,0);
+  }
+  .el-carousel__arrow i {
+    font-size: 28px;
+}
+  .slider-5 .el-carousel__container{
+     height: 100%;
+  }
+  .c-swiper{
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>
 <script>
 import Tabs from "@/components/Tabs.vue";
 import RightList from "@/components/RightList.vue";
@@ -120,6 +119,7 @@ export default {
       loadMore: false,
       hasMore: true,
       tabNum: 1,
+      bannerList:[],
       noticeInfo: [],
       paging: {
         current: 1,
@@ -240,10 +240,10 @@ export default {
           console.log(error);
         });
     },
-    handleDetail: function() {
+    handleDetail: function(id) {
       this.$router.push({
         name: "detail",
-        query: { page: "notice", tab: this.$store.state.tabNum }
+        query: { page: "notice", tab: this.$store.state.tabNum,id: id}
       });
     }
   }

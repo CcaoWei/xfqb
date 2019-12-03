@@ -2,7 +2,7 @@
   <div id="app">
     <Head></Head>
     <keep-alive>
-      <router-view></router-view>
+      <router-view :key="this.$route.path"></router-view>
     </keep-alive>
     <Foot></Foot>
   </div>

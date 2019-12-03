@@ -6,7 +6,7 @@
         <div class="w-layout-grid grid-2">
           <div
             class="en-box card-shadow pointer"
-            @click="handleDetail"
+            @click="handleDetail(item.id)"
             v-for="(item, idx) in branchList"
             :key="idx"
           >
@@ -99,15 +99,15 @@ export default {
           }
           console.log(this);
         })
-        .catch(function(error) {
+        .catch(error => {
           // handle error
           console.log(error);
         });
     },
-    handleDetail: function() {
+    handleDetail: function(id) {
       this.$router.push({
         name: "detail",
-        query: { page: "branch", tab: this.$store.state.tabNum }
+        query: { page: "branch", tab: this.$store.state.tabNum,id: id},
       });
     }
   }

@@ -63,12 +63,20 @@
               type="search"
               class="search-input w-input"
               maxlength="256"
+              ref="myInput"
               name="query"
               placeholder="Search…"
-              id="search"
+              v-model="searchVal"
+              v-if="search"
+              @blur="animateWidth"
               required=""
             />
-            <img :src="`${$publicPath}images/search_1search.png`" alt="" />
+            <img
+              :src="`${$publicPath}images/search_1search.png`"
+              alt=""
+              @click="shouSeachInput"
+              v-if="!search"
+            />
             <!-- <input type="submit" value="搜索" class="search-btn w-button" /> -->
             <div class="div-block-19"></div>
             <div class="language">
@@ -214,10 +222,32 @@
   margin-left: 16px;
   margin-right: 16px;
 }
+.el-input__inner {
+  width: 120px !important;
+  border-radius: 100% !important;
+  height: 21px !important;
+  background: rgba(0, 0, 0, 0) !important;
+}
+.search-input {
+  display: block;
+  width: 108px;
+  height: 20px;
+  margin-top: 10px;
+  color: #fff;
+}
 @media (max-width: 991px) {
   .search {
     margin-right: 20px;
   }
+}
+input::-webkit-input-placeholder {
+  color: #fff;
+  font-size: 12px;
+}
+.w-input:focus,
+.w-select:focus {
+  border-color: #fff;
+  outline: 0;
 }
 </style>
 <script>
@@ -240,6 +270,8 @@ export default {
   },
   data() {
     return {
+      search: false,
+      searchVal: "",
       languageValue: "zh",
       logo: "",
       value: "中文",
@@ -299,6 +331,12 @@ export default {
     this.getlogo();
   },
   methods: {
+    animateWidth(e) {
+      this.search = false;
+    },
+    shouSeachInput() {
+      this.search = true;
+    },
     getlogo() {
       const url = this.$store.state.url;
       axios
@@ -336,6 +374,13 @@ export default {
     }
   },
   watch: {
+    search: function(a, b) {
+      if (b == false) {
+        this.$nextTick(function() {
+          this.$refs.myInput.focus();
+        });
+      }
+    },
     $route: {
       handler: function(to) {
         // console.log('new: %s, old: %s', to, from)

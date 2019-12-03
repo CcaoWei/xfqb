@@ -40,7 +40,7 @@
           <div class="w-layout-grid grid-2">
             <div
               class="en-box card-shadow pointer"
-              @click="handleDetail"
+              @click="handleDetail(item.id)"
               v-for="(item, idx) in optimizationList"
               :key="idx"
             >
@@ -323,10 +323,11 @@ export default {
         query: { page: "best", tab: this.$store.state.tabNum }
       });
     },
-    handleDetail: function() {
+    handleDetail(id) {
+      console.log(id)
       this.$router.push({
         name: "detail",
-        query: { page: "best", tab: this.$store.state.tabNum }
+        query: { page: "best", tab: this.$store.state.tabNum,id: id },
       });
     }
   }

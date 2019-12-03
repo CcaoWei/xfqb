@@ -21,15 +21,15 @@
           <div class="div-block-10">
             <a href="#" class="foot-btn w-inline-block"
               ><img
-                :src="`${$publicPath}images/Icon-3.svg`"
+                :src="`${$publicPath}images/face.png`"
                 alt=""
                 class="foot-img"/></a
             ><a href="#" class="foot-btn w-inline-block"
-              ><img src="images/Icon-3.svg" alt="" class="foot-img"/></a
+              ><img :src="`${$publicPath}images/google_plus.png`" alt="" class="foot-img"/></a
             ><a href="#" class="foot-btn w-inline-block"
-              ><img src="images/Icon-3.svg" alt="" class="foot-img"/></a
+              ><img :src="`${$publicPath}images/pinterest.png`" alt="" class="foot-img"/></a
             ><a href="#" class="foot-btn w-inline-block"
-              ><img src="images/Icon-3.svg" alt="" class="foot-img"
+              ><img :src="`${$publicPath}images/twitter.png`" alt="" class="foot-img"
             /></a>
           </div>
         </div>

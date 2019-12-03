@@ -2,61 +2,53 @@
   <div class="home">
     <!-- 轮播 -->
     <div class="section cc-store-home-wrap">
-      <div
-        data-animation="slide"
-        data-duration="500"
-        data-infinite="1"
+      <el-carousel
+        :interval="5000"
+        arrow="always"
         class="slider-2 w-slider"
+        ref="carousel"
       >
-        <div class="w-slider-mask">
-          <div
-            :class="'slide-' + (index + 1) + ' w-slide'"
-            v-for="(item, index) in slideList"
-            :key="index"
-          >
-            <div class="top-num">
-              <div class="text-block-3">{{ index + 1 }}</div>
-              <div class="text-block-2">
-                /{{
-                  slideList.length > 9
-                    ? slideList.length
-                    : "0" + slideList.length.toString()
-                }}
-              </div>
+        <el-carousel-item
+          v-for="(item, index) in slideList"
+          :style="item.img"
+          :key="index"
+        >
+          <div class="top-num">
+            <div class="text-block-3">{{ index + 1 }}</div>
+            <div class="text-block-2">
+              /{{
+                slideList.length > 9
+                  ? slideList.length
+                  : "0" + slideList.length.toString()
+              }}
             </div>
-            <div class="top-info">
-              <h2 class="top-title" v-html="item.title"></h2>
-              <!-- <div class="top-text" v-html="item.subject"></div> -->
-            </div>
-            <div class="top-nav">
+          </div>
+          <div class="top-info">
+            <h2 class="top-title" v-html="item.title"></h2>
+            <!-- <div class="top-text" v-html="item.subject"></div> -->
+          </div>
+          <div class="top-nav">
+            <div
+              v-for="(info, i) in 3"
+              :key="i"
+              class="top-nav-dot"
+              :class="{ 'nav-active': i == index }"
+            ></div>
+            <div class="columns-8 w-row">
               <div
-                v-for="(info, i) in 3"
+                class="nav-normal w-col w-col-4 w-col-tiny-4"
+                v-for="(info, i) in info"
                 :key="i"
-                class="top-nav-dot"
                 :class="{ 'nav-active': i == index }"
-              ></div>
-              <div class="columns-8 w-row">
-                <div
-                  class="nav-normal w-col w-col-4 w-col-tiny-4"
-                  v-for="(info, i) in info"
-                  :key="i"
-                  :class="{ 'nav-active': i == index }"
-                >
-                  <!-- <div class="text-block-4">{{ info.text }}</div> -->
-                  <h3 class="heading">{{ info.title }}</h3>
-                </div>
+                @click="showBanner(i)"
+              >
+                <!-- <div class="text-block-4">{{ info.text }}</div> -->
+                <h3 class="heading">{{ info.title }}</h3>
               </div>
             </div>
           </div>
-        </div>
-        <div class="left-arrow w-slider-arrow-left">
-          <img :src="`${$publicPath}images/left_1left.png`" alt="" />
-        </div>
-        <div class="right-arrow w-slider-arrow-right">
-          <img :src="`${$publicPath}images/right.png`" alt="" />
-        </div>
-        <div class="slide-nav w-slider-nav w-round"></div>
-      </div>
+        </el-carousel-item>
+      </el-carousel>
     </div>
 
     <!-- 业务分类 -->
@@ -88,7 +80,7 @@
           </div>
           <div class="tabs-content-2 w-tab-content">
             <div
-              :data-w-tab="item.type"
+              :data-w-tab="item.link"
               class="w-tab-pane"
               :class="{ 'w--tab-active': index == 0 }"
               v-for="(item, index) in businessData"
@@ -160,10 +152,13 @@
                                   </h4>
                                   <div class="tab-text">{{ card.subject }}</div>
                                 </div>
-                                <a href="#" class="more-link w-inline-block">
+                                <a
+                                  href="#"
+                                  class="more-link w-inline-block"
+                                  @click="handleLink('service', index)"
+                                >
                                   <div
                                     class="text-block-12"
-                                    @click="handleLink('service', index)"
                                     v-html="$t('message.moreData')"
                                   ></div>
                                   <img
@@ -586,9 +581,60 @@
     </div>
   </div>
 </template>
-<style>
+<style lang="less">
 .tabs-content-3 {
   padding-top: 30px;
+}
+.slider-2  .el-carousel__container {
+  height: 100%;
+}
+.heading-6 {
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.text-block-13 {
+  height: 40px;
+  width: 90%;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.el-carousel__container .el-carousel__arrow--left {
+  left: 30px ;
+  bottom: 40px ;
+  top: auto;
+  right: auto;
+  z-index: 20;
+  width: 46px ;
+  height: 46px ;
+  cursor: pointer;
+  position: absolute;
+  border: 2px solid #fff;
+}
+.el-carousel__container .el-carousel__arrow--right {
+  left: 96px ;
+  bottom: 40px ;
+  top: auto;
+  right: auto;
+  z-index: 20;
+  width: 46px ;
+  height: 46px ;
+  cursor: pointer;
+  position: absolute;
+  border: 2px solid #fff;
+}
+.el-carousel__arrow i {
+  cursor: pointer;
+  font-size: 19px;
+  margin-top: 5px;
+}
+.el-carousel__indicators {
+  display: none;
 }
 </style>
 
@@ -608,10 +654,11 @@ export default {
     HelloWorld
   },
   data() {
-    let self = this;
+    let that = this;
     return {
       zoom: 8,
-      center: [116.458, 39.42],
+      center: [121.59996, 31.197646],
+      loaded: false,
       windows: [],
       markers: [
         {
@@ -631,7 +678,7 @@ export default {
           draggable: false
         }
       ],
-      loaded: false,
+     
       window: {},
       plugin: [
         {
@@ -641,11 +688,16 @@ export default {
               // o 是高德地图定位插件实例
               o.getCurrentPosition((status, result) => {
                 if (result && result.position) {
-                  self.lng = result.position.lng;
-                  self.lat = result.position.lat;
-                  self.center = [self.lng, self.lat];
-                  self.loaded = true;
-                  self.$nextTick();
+                  console.log(result.position)
+                  console.log(result.position.lng)
+                  let re = result.position;
+                  
+                  let lng = re.lng;
+                  let lat = re.lat;
+                  console.log(that)
+                  that.center = [lng, lat];
+                  that.loaded = true;
+                  that.$nextTick();
                 }
               });
             }
@@ -742,12 +794,14 @@ export default {
   mounted() {
     this.getHomeInfo();
   },
-
   methods: {
+    showBanner(i) {
+      this.$refs.carousel.setActiveItem(i);
+    },
     //处理banner图数据
     setBanner(msg) {
       for (let item of msg) {
-        item.img = `background-image:url(${item.file});`;
+        item.img = `background-image:url(${item.file});background-repeat:no-repeat;background-size: cover;`;
         let info = [];
         item.info = info;
       }
@@ -788,7 +842,7 @@ export default {
     setClassification(buType) {
       buType.forEach((item, idx) => {
         item.data = [];
-        item.type = idx + 1;
+        item.link = idx + 1;
         let all = {};
         let info = {};
         info.title = item.title;
@@ -830,13 +884,10 @@ export default {
             }
           }
         };
-        this.windows.push(currentWindow);
-        this.window = this.windows[0];
         this.markers.push(marker);
+        this.windows.push(currentWindow);
       });
-      console.log(this);
-      console.log(this.markers);
-      console.log(this.windows);
+      this.window = this.windows[0];
     },
     //获取主页需要的信息
     getHomeInfo() {

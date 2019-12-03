@@ -18,8 +18,8 @@
               </h3>
               <p class="paragraph-6 ellipsis-4">{{ item.subject }}</p>
               <div class="more-box">
-                <div class="more-btn w-inline-block" @click="handleDetail">
-                  <div class="text-block-45">MORE</div>
+                <div class="more-btn w-inline-block"  @click="handleDetail(item.id)">
+                  <div class="text-block-45" v-html="$t('message.moreData')"></div>
                   <img :src="`${$publicPath}images/icon10_1icon10.png`" alt />
                 </div>
               </div>
@@ -92,6 +92,7 @@ export default {
     };
   },
   created() {
+    console.log( this.$router)
     this.getServiceData(1);
   },
   methods: {
@@ -106,7 +107,7 @@ export default {
       }
     },
     getTabIndex(idx) {
-      let category = idx;
+      let category = idx +1;
       console.log(category);
       let paging = {
         current: 1,
@@ -120,13 +121,13 @@ export default {
     },
     //获取业务分类数据  默认获取账户管理
     getServiceData(category, argPaging) {
-      console.log(this.data);
+      console.log(category)
       const url = this.$store.state.url;
       const paging = argPaging ? argPaging : this.paging;
       axios
         .get(`${url}/business/list`, {
           params: {
-            category: category + 1,
+            category: category ,
             current: paging.current,
             size: paging.size
           }
@@ -145,17 +146,17 @@ export default {
             }
           }
         })
-        .catch(function(error) {
+        .catch(error => {
           // handle error
           console.log(error);
         });
     },
-    handleDetail: function() {
+    handleDetail: function(id) {
+      console.log(id)
       // this.$store.commit('setTabs', this.nav);
-      console.log("????");
       this.$router.push({
         name: "detail",
-        query: { page: "service", tab: this.$store.state.tabNum }
+        query: { page: "service", tab: this.$store.state.tabNum, id: id },
       });
     }
   }

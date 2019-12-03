@@ -31,7 +31,7 @@
                   <div class="new-list-right">
                     <h3
                       class="new-list-title ellipsis-1 pointer"
-                      @click="handleDetail"
+                      @click="handleDetail(item.id)"
                     >
                       {{ item.title }}
                     </h3>
@@ -248,10 +248,10 @@ export default {
           console.log(error);
         });
     },
-    handleDetail: function() {
+    handleDetail (id) {
       this.$router.push({
         name: "detail",
-        query: { page: "statute", tab: this.$store.state.tabNum }
+        query: { page: "statute", tab: this.$store.state.tabNum,id: id }
       });
     }
   }

@@ -65,7 +65,7 @@
               </div>
               <div
                 class="pur-table pur-con pointer"
-                @click="handleDetail"
+                @click="handleDetail(item.id)"
                 v-for="item in purchaseInfo.records"
                 :key="item.id"
               >
@@ -281,10 +281,10 @@ export default {
           console.log(error);
         });
     },
-    handleDetail: function() {
+    handleDetail: function(id) {
       this.$router.push({
         name: "detail",
-        query: { page: "purchase", tab: this.$store.state.tabNum }
+        query: { page: "purchase", tab: this.$store.state.tabNum,id: id}
       });
     },
     handleSizeChange(val) {
