@@ -299,7 +299,7 @@ export default {
       let id = this.$route.query.id;
       let urlDetail = this.matchingUrl(type,tab);
       axios
-        .get(url+urlDetail, {
+        .get(`${url}${urlDetail}`, {
           params: {
             id: id
           }
@@ -321,17 +321,17 @@ export default {
      console.log(this.$route)
       this.getDetailInfo();
   },
-  created() {
-    
+  // created() {
     // this.$emit('getActiveNav',this.page);
     // this.$store.commit('setActiveNav', this.page);
     
+  // },
+  activated(){
+    this.getDetailInfo();
   },
   watch: {
     $route: {
-      handler: function(to, from) {
-        console.log(to, from);
-        this.getDetailInfo();
+      handler(to, from) {
         if (to.name == "detail") {
           this.page = to.query.page;
           // console.log(this.page);
